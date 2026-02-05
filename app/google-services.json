@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "626069622489",
+    "project_id": "restaurante-339c5",
+    "storage_bucket": "restaurante-339c5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626069622489:android:71b1b669c23f35394f38c8",
+        "android_client_info": {
+          "package_name": "br.davyfelix.dinofoods"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALJ5N7ENuLLme3qTKZPBZF7aajREVikvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
