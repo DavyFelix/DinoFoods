@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
 
                         // Ir para próxima tela
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(
