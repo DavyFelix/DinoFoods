@@ -1,9 +1,11 @@
 package br.davyfelix.dinofoods.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -11,6 +13,8 @@ import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.adapters.ProdutoAdapter
 import br.davyfelix.dinofoods.data.Carrinho
 import br.davyfelix.dinofoods.model.Produto
+import br.davyfelix.dinofoods.services.AppwriteService
+import kotlinx.coroutines.launch
 
 class FoodsFragments : Fragment() {
 
@@ -29,7 +33,31 @@ class FoodsFragments : Fragment() {
         val fab = view.findViewById<FloatingActionButton>(R.id.fabCarrinho)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = ProdutoAdapter(listaDeProdutos())
+
+        // Chamada assíncrona para o Appwrite
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = AppwriteService.getProdutos()
+
+                // Mapeia os documentos para a lista de objetos Produto
+                val listaVindaDoAppwrite = response.documents.map { doc ->
+                    Produto(
+                        productName = doc.data["productName"].toString(),
+                        description = doc.data["description"].toString(),
+                        price = (doc.data["price"] as Number).toDouble(),
+                        imagemUrl = AppwriteService.getImageUrl(doc.data["imagemId"].toString())
+                    )
+                }
+
+                // Atualiza o adapter com os dados reais
+                recyclerView.adapter = ProdutoAdapter(listaVindaDoAppwrite)
+
+            } catch (e: Exception) {
+                // Se der erro, agora saberemos o motivo real além do 'cancelled'
+                Log.e("DinoFoods", "Erro detalhado: ${e.printStackTrace()}")
+                Toast.makeText(requireContext(), "Erro: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+        }
 
         fab.setOnClickListener {
             Toast.makeText(
@@ -38,13 +66,5 @@ class FoodsFragments : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-
-    private fun listaDeProdutos(): List<Produto> {
-        return listOf(
-            Produto("Hambúrguer Especial", "Carne 180g + cheddar", 29.90),
-            Produto("Pizza Calabresa", "Molho artesanal + mussarela", 39.90),
-            Produto("Refrigerante", "Lata 350ml", 6.00)
-        )
     }
 }

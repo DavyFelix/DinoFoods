@@ -11,6 +11,6 @@ object Carrinho {
     }
 
     fun total(): Double {
-        return itens.sumOf { it.preco }
+        return itens.sumOf { it.price }
     }
 }

@@ -4,7 +4,13 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
 }
-
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.squareup.okhttp3") {
+            useVersion("4.12.0")
+        }
+    }
+}
 android {
     namespace = "br.davyfelix.dinofoods"
     compileSdk {
@@ -47,6 +53,13 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+    // ... firebase e appwrite ...
+    implementation("io.appwrite:sdk-for-android:5.1.0")
+    // Forçamos a biblioteca direta em vez do BOM
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // Glide (com o endereço corrigido)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

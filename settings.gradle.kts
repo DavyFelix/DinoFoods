@@ -15,7 +15,8 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        mavenCentral()
+        mavenCentral() // O OkHttp mora aqui
+        maven { url = uri("https://jitpack.io") } // O Glide mora aqui
     }
 }
 
