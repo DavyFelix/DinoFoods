@@ -1,4 +1,4 @@
-\🦖 DinoFoods - App de Entrega
+🦖 DinoFoods - App de Entrega
 O DinoFoods é um aplicativo Android de entrega de comida com temática pré-histórica, desenvolvido em Kotlin. O projeto utiliza o Appwrite como Backend as a Service (BaaS) para gestão de base de dados e armazenamento de imagens, e o Firebase para autenticação.
 
 🛠️ Tecnologias Utilizadas
