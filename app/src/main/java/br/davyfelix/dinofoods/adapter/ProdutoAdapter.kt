@@ -4,26 +4,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView // Importante
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide // Importante
+import com.bumptech.glide.Glide
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.data.Carrinho
 import br.davyfelix.dinofoods.model.Produto
 
 class ProdutoAdapter(
-    private val lista: List<Produto>
+    private val lista: List<Produto>,
+    // Adicionamos um callback opcional para o Fragment saber quando algo foi adicionado
+    private val onProdutoAdicionado: ((Produto) -> Unit)? = null
 ) : RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder>() {
 
-    class ProdutoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nome: TextView = itemView.findViewById(R.id.tvNomeProduto)
-        val descricao: TextView = itemView.findViewById(R.id.tvDescricao)
-        val preco: TextView = itemView.findViewById(R.id.tvPreco)
-        val btnAdicionar: Button = itemView.findViewById(R.id.btnAdicionar)
-        // 1. Referência para o ImageView (certifique-se de que o ID no XML é este)
-        val imagem: ImageView = itemView.findViewById(R.id.imgProduto)
+    class ProdutoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val nome: TextView = view.findViewById(R.id.tvNomeProduto)
+        //val descricao: TextView = view.findViewById(R.id.tvDescricao)
+        val preco: TextView = view.findViewById(R.id.tvPreco)
+        val btnAdicionar: Button = view.findViewById(R.id.btnAdicionar)
+        val imagem: ImageView = view.findViewById(R.id.imgProduto)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProdutoViewHolder {
@@ -36,24 +37,28 @@ class ProdutoAdapter(
         val produto = lista[position]
 
         holder.nome.text = produto.productName
-        holder.descricao.text = produto.description
+       // holder.descricao.text = produto.description
         holder.preco.text = "R$ %.2f".format(produto.price)
 
-        // 2. Carregando a imagem com Glide
+        // Carregamento da imagem com Glide
         Glide.with(holder.itemView.context)
-            .load(produto.imagemUrl) // A URL que geramos no AppwriteService
-            //.placeholder(R.drawable.loading_placeholder) // Uma imagem cinza enquanto carrega
-            //.error(R.drawable.error_image) // Imagem caso o link falhe
+            .load(produto.imagemUrl)
             .centerCrop()
             .into(holder.imagem)
 
         holder.btnAdicionar.setOnClickListener {
+            // 1. Lógica de dados
             Carrinho.adicionar(produto)
+
+            // 2. Feedback visual imediato
             Toast.makeText(
                 holder.itemView.context,
-                "${produto.productName} adicionado!",
+                "${produto.productName} adicionado ao carrinho!",
                 Toast.LENGTH_SHORT
             ).show()
+
+            // 3. Notifica o Fragment (útil para atualizar contadores no FAB)
+            onProdutoAdicionado?.invoke(produto)
         }
     }
 

@@ -34,12 +34,11 @@ class FoodsFragments : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Chamada assíncrona para o Appwrite
+        // Chamada assíncrona para buscar os produtos no Appwrite
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = AppwriteService.getProdutos()
 
-                // Mapeia os documentos para a lista de objetos Produto
                 val listaVindaDoAppwrite = response.documents.map { doc ->
                     Produto(
                         productName = doc.data["productName"].toString(),
@@ -49,22 +48,33 @@ class FoodsFragments : Fragment() {
                     )
                 }
 
-                // Atualiza o adapter com os dados reais
-                recyclerView.adapter = ProdutoAdapter(listaVindaDoAppwrite)
+                // Configura o Adapter passando o callback de clique
+                recyclerView.adapter = ProdutoAdapter(listaVindaDoAppwrite) { produto ->
+                    // Esta lógica roda dentro do Adapter quando o botão 'Adicionar' é clicado
+                    // O Carrinho.adicionar(produto) já acontece no Adapter,
+                    // aqui você pode adicionar efeitos extras na UI do Fragment.
+                    Log.d("DinoFoods", "Produto adicionado: ${produto.productName}")
+                }
 
             } catch (e: Exception) {
-                // Se der erro, agora saberemos o motivo real além do 'cancelled'
-                Log.e("DinoFoods", "Erro detalhado: ${e.printStackTrace()}")
-                Toast.makeText(requireContext(), "Erro: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+                Log.e("DinoFoods", "Erro ao carregar produtos", e)
+                Toast.makeText(requireContext(), "Erro ao carregar: ${e.message}", Toast.LENGTH_LONG).show()
+            }
         }
 
+        // Configuração do FAB para abrir a tela do Carrinho
         fab.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Itens no carrinho: ${Carrinho.itens.size}",
-                Toast.LENGTH_SHORT
-            ).show()
+            if (Carrinho.itens.isEmpty()) {
+                Toast.makeText(requireContext(), "O carrinho está vazio!", Toast.LENGTH_SHORT).show()
+            } else {
+                // Esta é a lógica que faz a troca de tela (Fragment Transaction)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, CarrinhoFragment()) // 'fragment_container' deve ser o ID do FrameLayout/FragmentContainerView da sua MainActivity
+                    .addToBackStack(null) // Permite que o usuário volte ao clicar no botão "Voltar" do celular
+                    .commit()
+            }
         }
     }
+
+
 }

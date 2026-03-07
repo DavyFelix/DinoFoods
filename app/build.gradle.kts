@@ -59,6 +59,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     // Glide (com o endereço corrigido)
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.constraintlayout)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
