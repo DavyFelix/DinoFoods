@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.DinoFoods" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/roxo_primario</item>
+        <item name="colorPrimaryVariant">@color/roxo_escuro</item>
+        <item name="colorOnPrimary">@color/branco</item>
 
-    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+        <item name="android:windowBackground">@color/roxo_fundo</item>
+        <item name="colorSurface">@color/branco</item>
 
+        <item name="android:statusBarColor">@color/roxo_primario</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

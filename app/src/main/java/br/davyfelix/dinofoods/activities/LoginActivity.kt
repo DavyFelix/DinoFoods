@@ -17,6 +17,15 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    override fun onStart() {
+        super.onStart()
+        // Inicializa o Firebase e verifica se o usuário já está logado
+        auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            irParaHome()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,10 +51,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
-
-                        // Ir para próxima tela
-                        startActivity(Intent(this, HomeActivity::class.java))
-                        finish()
+                        irParaHome()
                     } else {
                         Toast.makeText(
                             this,
@@ -61,8 +67,15 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         tvRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+    }
+
+    // Função auxiliar para evitar repetição de código
+    private fun irParaHome() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish() // Fecha a LoginActivity para que o usuário não volte para ela ao apertar 'Back'
     }
 }

@@ -5,23 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/roxo_fundo"> <TextView
+    android:id="@+id/tvTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/app_name"
+    android:textSize="30sp"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="60dp"/>
 
-    <!-- Logo / Nome -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DinoFoods 🦖"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp"/>
-
-    <!-- Card Login -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardLogin"
         android:layout_width="0dp"
@@ -29,6 +26,7 @@
         android:layout_marginTop="40dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/roxo_claro"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -48,6 +46,7 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,12 +55,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Senha"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/roxo_primario">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +72,8 @@
                 android:layout_height="wrap_content"
                 android:text="Entrar"
                 android:layout_marginTop="24dp"
+                android:backgroundTint="@color/roxo_primario"
+                android:textColor="@color/white"
                 app:cornerRadius="16dp"/>
 
             <TextView
@@ -79,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="Não tem conta? Cadastre-se"
                 android:textStyle="bold"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/roxo_primario"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"/>
 
