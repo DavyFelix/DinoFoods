@@ -15,4 +15,12 @@
     <string name="registrar">registrar</string>
     <string name="voltar">Voltar</string>
     <string name="eslogam">O melhor lanche da sua cidade</string>
+    <string name="adicionar">+ Adicionar</string>
+    <string name="preco">R$ 0,00</string>
+    <string name="remover_item">Remover item</string>
+    <string name="search">Buscar no cardápio...</string>
+    <string name="finalizar_pedido">Finalizar Pedido</string>
+    <string name="total">Total: R$ 0,00</string>
+    <string name="carrinho">Meu Carrinho</string>
+    <string name="sem_conta">Não tem conta? Cadastre-se</string>
 </resources>

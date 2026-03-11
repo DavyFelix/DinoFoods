@@ -51,7 +51,7 @@
         android:id="@+id/btnAdicionar"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="+ Adicionar"
+        android:text="@string/adicionar"
         android:textAllCaps="false"
         android:textSize="12sp"
         android:textColor="@color/white"

@@ -40,7 +40,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email">
+                android:hint="@string/email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Senha"
+                android:hint="@string/senha"
                 app:endIconMode="password_toggle"
                 app:endIconTint="@color/roxo_primario">
 
@@ -70,7 +70,7 @@
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Entrar"
+                android:text="@string/entrar"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/roxo_primario"
                 android:textColor="@color/white"
@@ -80,7 +80,7 @@
                 android:id="@+id/tvRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Não tem conta? Cadastre-se"
+                android:text="@string/sem_conta"
                 android:textStyle="bold"
                 android:textColor="@color/roxo_primario"
                 android:layout_gravity="center"

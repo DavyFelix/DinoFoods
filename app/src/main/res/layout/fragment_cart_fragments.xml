@@ -10,7 +10,7 @@
     android:id="@+id/tvTituloCarrinho"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Meu Carrinho"
+    android:text="@string/carrinho"
     android:textSize="26sp"
     android:textColor="@color/black"
     android:textStyle="bold"
@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@color/roxo_claro" android:elevation="4dp"
+        android:background="@color/roxo_claro"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -43,14 +44,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/roxo_fundo" android:layout_marginBottom="12dp"/>
+            android:background="@color/roxo_fundo"
+            android:layout_marginBottom="12dp"/>
 
         <TextView
             android:id="@+id/tvTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total: R$ 0,00"
-            android:textColor="@color/roxo_primario" android:textSize="22sp"
+            android:text="@string/total"
+            android:textColor="@color/roxo_primario"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
@@ -58,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="12dp"
-            android:text="Finalizar Pedido"
+            android:text="@string/finalizar_pedido"
             android:textSize="16sp"
             android:textColor="@color/white"
             app:backgroundTint="@color/roxo_primario"
