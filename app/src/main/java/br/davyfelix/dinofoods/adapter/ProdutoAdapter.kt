@@ -9,19 +9,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.data.Carrinho
-import br.davyfelix.dinofoods.model.Produto
+import br.davyfelix.dinofoods.data.Produto
+
 
 class ProdutoAdapter(
     private val lista: List<Produto>,
-    // Adicionamos um callback opcional para o Fragment saber quando algo foi adicionado
     private val onProdutoAdicionado: ((Produto) -> Unit)? = null
 ) : RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder>() {
 
     class ProdutoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nome: TextView = view.findViewById(R.id.tvNomeProduto)
-        //val descricao: TextView = view.findViewById(R.id.tvDescricao)
         val preco: TextView = view.findViewById(R.id.tvPreco)
         val btnAdicionar: Button = view.findViewById(R.id.btnAdicionar)
         val imagem: ImageView = view.findViewById(R.id.imgProduto)
@@ -37,27 +37,29 @@ class ProdutoAdapter(
         val produto = lista[position]
 
         holder.nome.text = produto.productName
-       // holder.descricao.text = produto.description
-        holder.preco.text = "R$ %.2f".format(produto.price)
 
-        // Carregamento da imagem com Glide
+        // Usando as strings do strings.xml para manter a formatação de moeda
+        // Se preferir manter fixo em PT-BR: "R$ %.2f".format(produto.price)
+        holder.preco.text = holder.itemView.context.getString(R.string.preco_formatado, produto.price)
+
+        // --- MELHORIA NO CARREGAMENTO DE IMAGEM ---
         Glide.with(holder.itemView.context)
-            .load(produto.imagemUrl)
+            .load(produto.imagemID) // URL gerada no Fragment/Service
+            // Efeito suave ao aparece
             .centerCrop()
+            .placeholder(R.drawable.ic_launcher_background) // Imagem enquanto carrega
+            .error(android.R.drawable.ic_menu_report_image) // Imagem se o ID falhar
             .into(holder.imagem)
 
         holder.btnAdicionar.setOnClickListener {
-            // 1. Lógica de dados
             Carrinho.adicionar(produto)
 
-            // 2. Feedback visual imediato
             Toast.makeText(
                 holder.itemView.context,
-                "${produto.productName} adicionado ao carrinho!",
+                "${produto.productName} ${holder.itemView.context.getString(R.string.adicionado_sucesso)}",
                 Toast.LENGTH_SHORT
             ).show()
 
-            // 3. Notifica o Fragment (útil para atualizar contadores no FAB)
             onProdutoAdicionado?.invoke(produto)
         }
     }

@@ -13,7 +13,6 @@ object AppwriteService {
     // IDs do seu console Appwrite
     const val DATABASE_ID = "69a784c50036d1da880b"
     const val COLLECTION_PRODUTOS = "produtos"
-    const val BUCKET_IMAGES = "69a7874e00169355f884"
 
     // No seu AppwriteService.kt
 
@@ -28,8 +27,7 @@ object AppwriteService {
     }
 
     fun getImageUrl(fileId: String): String {
-        // Também precisa atualizar o domínio aqui para a imagem carregar
-        return "https://nyc.cloud.appwrite.io/v1/storage/buckets/$BUCKET_IMAGES/files/$fileId/view?project=69a7800f0010f71f3348"
+        return "https://nyc.cloud.appwrite.io/v1/storage/buckets/69a7874e00169355f884/files/$fileId/view?project=69a7800f0010f71f3348&mode=admin"
     }
 
     // Função para buscar produtos

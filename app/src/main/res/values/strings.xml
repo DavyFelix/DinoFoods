@@ -23,4 +23,6 @@
     <string name="total">Total: R$ 0,00</string>
     <string name="carrinho">Meu Carrinho</string>
     <string name="sem_conta">Não tem conta? Cadastre-se</string>
+    <string name="adicionado_sucesso">"Adicionado com sucesso "</string>
+    <string name="preco_formatado">R$ %.2f</string>
 </resources>

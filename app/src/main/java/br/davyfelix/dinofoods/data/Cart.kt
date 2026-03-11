@@ -1,6 +1,6 @@
 package br.davyfelix.dinofoods.data
 
-import br.davyfelix.dinofoods.model.Produto
+import br.davyfelix.dinofoods.data.Produto
 
 object Carrinho {
 

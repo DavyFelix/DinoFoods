@@ -12,7 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.adapters.ProdutoAdapter
 import br.davyfelix.dinofoods.data.Carrinho
-import br.davyfelix.dinofoods.model.Produto
+import br.davyfelix.dinofoods.data.Produto
 import br.davyfelix.dinofoods.services.AppwriteService
 import kotlinx.coroutines.launch
 
@@ -40,11 +40,12 @@ class FoodsFragments : Fragment() {
                 val response = AppwriteService.getProdutos()
 
                 val listaVindaDoAppwrite = response.documents.map { doc ->
+                    val testaImagem = doc.data["imageId"]?.toString() ?: ""
                     Produto(
                         productName = doc.data["productName"].toString(),
                         description = doc.data["description"].toString(),
                         price = (doc.data["price"] as Number).toDouble(),
-                        imagemUrl = AppwriteService.getImageUrl(doc.data["imagemId"].toString())
+                        imagemID = if (testaImagem.isNotEmpty())AppwriteService.getImageUrl(testaImagem) else ""
                     )
                 }
 

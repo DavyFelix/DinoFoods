@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import br.davyfelix.dinofoods.R
-import br.davyfelix.dinofoods.model.Produto
+import br.davyfelix.dinofoods.data.Produto
 
 class CarrinhoAdapter(
     private val itens: MutableList<Produto>,
@@ -34,7 +34,7 @@ class CarrinhoAdapter(
         holder.nome.text = produto.productName
         holder.preco.text = "R$ %.2f".format(produto.price)
 
-        Glide.with(holder.itemView.context).load(produto.imagemUrl).into(holder.imagem)
+        Glide.with(holder.itemView.context).load(produto.imagemID).into(holder.imagem)
 
         holder.btnRemover.setOnClickListener {
             onRemoverClick(produto)

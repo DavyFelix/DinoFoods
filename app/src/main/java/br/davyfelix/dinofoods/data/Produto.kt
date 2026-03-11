@@ -1,8 +1,8 @@
-package br.davyfelix.dinofoods.model
+package br.davyfelix.dinofoods.data
 
 data class Produto(
     val productName: String,
     val description: String,
     val price: Double,
-    val imagemUrl: String? = null
+    val imagemID: String? = null
 )
