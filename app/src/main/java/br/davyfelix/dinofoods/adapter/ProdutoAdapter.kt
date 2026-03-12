@@ -9,14 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.data.Carrinho
 import br.davyfelix.dinofoods.data.Produto
 
-
 class ProdutoAdapter(
-    private val lista: List<Produto>,
+    // Mudamos de 'val' para 'var' para permitir a atualização da lista
+    private var lista: List<Produto>,
     private val onProdutoAdicionado: ((Produto) -> Unit)? = null
 ) : RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder>() {
 
@@ -37,31 +36,30 @@ class ProdutoAdapter(
         val produto = lista[position]
 
         holder.nome.text = produto.productName
-
-        // Usando as strings do strings.xml para manter a formatação de moeda
-        // Se preferir manter fixo em PT-BR: "R$ %.2f".format(produto.price)
         holder.preco.text = holder.itemView.context.getString(R.string.preco_formatado, produto.price)
 
-        // --- MELHORIA NO CARREGAMENTO DE IMAGEM ---
         Glide.with(holder.itemView.context)
-            .load(produto.imagemID) // URL gerada no Fragment/Service
-            // Efeito suave ao aparece
+            .load(produto.imagemID)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background) // Imagem enquanto carrega
-            .error(android.R.drawable.ic_menu_report_image) // Imagem se o ID falhar
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(android.R.drawable.ic_menu_report_image)
             .into(holder.imagem)
 
         holder.btnAdicionar.setOnClickListener {
             Carrinho.adicionar(produto)
-
             Toast.makeText(
                 holder.itemView.context,
                 "${produto.productName} ${holder.itemView.context.getString(R.string.adicionado_sucesso)}",
                 Toast.LENGTH_SHORT
             ).show()
-
             onProdutoAdicionado?.invoke(produto)
         }
+    }
+
+    // Método corrigido para atualizar a pesquisa
+    fun updateList(novaLista: List<Produto>) {
+        this.lista = novaLista // Agora aponta para a variável correta 'lista'
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = lista.size
