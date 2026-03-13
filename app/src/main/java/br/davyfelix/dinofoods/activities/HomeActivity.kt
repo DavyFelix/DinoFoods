@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import br.davyfelix.dinofoods.R
+import br.davyfelix.dinofoods.activities.ProfileActivity
 import br.davyfelix.dinofoods.fragments.FoodsFragments
 
 class HomeActivity : AppCompatActivity() {
@@ -46,7 +47,9 @@ class HomeActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_perfil -> {
-                    // Lógica para tela de perfil
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
                 R.id.nav_logout -> {
                     FirebaseAuth.getInstance().signOut()

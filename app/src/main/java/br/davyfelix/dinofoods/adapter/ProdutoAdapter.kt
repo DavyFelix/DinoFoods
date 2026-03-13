@@ -14,7 +14,6 @@ import br.davyfelix.dinofoods.data.Carrinho
 import br.davyfelix.dinofoods.data.Produto
 
 class ProdutoAdapter(
-    // Mudamos de 'val' para 'var' para permitir a atualização da lista
     private var lista: List<Produto>,
     private val onProdutoAdicionado: ((Produto) -> Unit)? = null
 ) : RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder>() {
@@ -56,9 +55,8 @@ class ProdutoAdapter(
         }
     }
 
-    // Método corrigido para atualizar a pesquisa
     fun updateList(novaLista: List<Produto>) {
-        this.lista = novaLista // Agora aponta para a variável correta 'lista'
+        this.lista = novaLista
         notifyDataSetChanged()
     }
 
