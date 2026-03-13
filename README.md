@@ -58,7 +58,7 @@ A aplicação utiliza **Appwrite como backend principal** para autenticação e 
 
 📂 Estrutura do Projeto
 O projeto segue uma organização por pacotes para facilitar a manutenção:
-
+```bash
 com.dinofoods
 │
 ├── activities
@@ -86,6 +86,7 @@ com.dinofoods
 └── services
 ├── Appwrite.kt
 └── FirebaseConfiguration.kt
+```
 
 # 🛠️ Funcionalidades
 
@@ -164,8 +165,6 @@ Clone o repositório:
 
 ```bash
 git clone https://github.com/seu-usuario/dinofoods.git
-🔧 Como Rodar o Projeto
-Clone o repositório.
 ```
 
 Certifique-se de ter o arquivo google-services.json na pasta /app.
