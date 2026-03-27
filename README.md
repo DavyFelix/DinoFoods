@@ -1,61 +1,183 @@
-🦖 DinoFoods - App de Entrega
-O DinoFoods é um aplicativo Android de entrega de comida com temática pré-histórica, desenvolvido em Kotlin. O projeto utiliza o Appwrite como Backend as a Service (BaaS) para gestão de base de dados e armazenamento de imagens, e o Firebase para autenticação.
+# 🦖 DinoFoods - Delivery App
+O **DinoFoods** é um aplicativo de delivery de comida desenvolvido em Android Nativo (Kotlin). O projeto foca em uma interface dinâmica com listagem de produtos, categorias e um sistema de carrinho de compras integrado com backend.
 
-🛠️ Tecnologias Utilizadas
-Linguagem: Kotlin.
+# 📑 Table of Contents
 
-Interface: XML com Material Design Components.
+- [📱 Sobre o Projeto](#-sobre-o-projeto)
+- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🛠️ Funcionalidades](#️-funcionalidades)
+- [🎨 Layouts](#-layouts)
+- [⚙️ Instalação](#️-instalação)
+- [▶️ Como Executar](#️-como-executar)
+- [🔧 Configuração](#-configuração)
+- [📸 Exemplos](#-exemplos)
+- [🧩 Dependências](#-dependências)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🚧 Próximos Passos](#-próximos-passos)
+- [👨‍💻 Contribuidores](#-contribuidores)
+- [📄 Licença](#-licença)
 
-Backend: Appwrite (Database e Storage).
+---
 
-Autenticação: Firebase Auth.
+# 📱 Sobre o Projeto
 
-Carregamento de Imagens: Glide.
+O **DinoFoods** simula um aplicativo moderno de delivery, permitindo que usuários:
 
-Arquitetura: Padrão de projeto baseado em Fragments e RecyclerViews.
+- Visualizem produtos em diferentes categorias
+- Adicionem itens ao carrinho
+- Gerenciem pedidos antes do checkout
+- Realizem autenticação de usuário
 
-✅ Funcionalidades Implementadas
-1. Integração com Appwrite
-Conexão Regional: Configurada para o endpoint específico de Nova Iorque (nyc.cloud.appwrite.io).
+A aplicação utiliza **Appwrite como backend principal** para autenticação e banco de dados, com **Firebase configurado como suporte adicional**.
 
-AppwriteService: Singleton implementado para centralizar a lógica de busca de documentos e geração de URLs de imagens.
+---
 
-Base de Dados: Estrutura de coleção produtos definida com campos para nome (productName), descrição, preço e ID da imagem.
+# 🚀 Tecnologias Utilizadas
 
-2. Interface do Utilizador (UI)
-Cardápio (Menu): Implementação de RecyclerView para listagem dinâmica de produtos.
+### Linguagem
+- Kotlin
 
-Layout de Itens: MaterialCardView personalizado com imagem arredondada, preços formatados e botão de compra.
+### Arquitetura
+- Activities + Fragments
 
-Navegação: Estrutura baseada em Fragments (ex: FoodsFragment).
+### Backend
+- Appwrite (Autenticação e Banco de Dados)
 
-3. Carrinho de Compras
-Lógica de Negócio: Objeto Carrinho responsável por gerir a lista de itens selecionados e somar valores.
+### Banco Secundário
+- Firebase (configurado via `google-services.json`)
 
-⚙️ Configuração do Ambiente
-O projeto utiliza as seguintes constantes de conexão:
+### Bibliotecas e UI
+- Material Design
+- RecyclerView
+- ConstraintLayout
+- Glide (carregamento de imagens)
 
-Recurso	ID / Valor
-Endpoint	https://nyc.cloud.appwrite.io/v1
-Project ID	69a7800f0010f71f3348
-Database ID	69a784c50036d1da880b
-Bucket ID	69a7874e00169355f884
-🚧 Próximos Passos
-[ ] Finalizar a integração da tela de Login com Firebase.
+---
 
-[ ] Implementar a lógica de finalizar pedido.
 
-[ ] Adicionar filtros por categoria (ex: Carnívoros, Herbívoros).
+📂 Estrutura do Projeto
+O projeto segue uma organização por pacotes para facilitar a manutenção:
+```bash
+com.dinofoods
+│
+├── activities
+│ ├── HomeActivity
+│ ├── LoginActivity
+│ ├── RegisterActivity
+│ ├── MainActivity
+│ └── ProfileActivity
+│
+├── fragments
+│ ├── FoodsFragments
+│ ├── DrinksFragments
+│ └── CartFragments
+│
+├── adapter
+│ ├── ProdutoAdapter
+│ └── CarrinhoAdapter
+│
+├── data
+│ └── Cart.kt
+│
+├── model
+│ └── Produto.kt
+│
+└── services
+├── Appwrite.kt
+└── FirebaseConfiguration.kt
+```
 
-[ ] Melhorar o tratamento de erros de rede (Timeouts e No Connection).
+# 🛠️ Funcionalidades
 
-Como Rodar o Projeto
-Clone o repositório: git clone https://github.com/DavyFelix/DinoFoods
+## 🛍️ 1. Vitrine de Produtos
 
-Abra no Android Studio.
+- Listagem dinâmica de produtos consumidos via **API do Appwrite**
+- Exibição usando **RecyclerView**
+- Layout flexível com:
+  - `GridLayout`
+  - `LinearLayout`
+- Separação por categorias:
+  - 🍔 Comidas
+  - 🥤 Bebidas
 
-Certifique-se de que o ficheiro google-services.json está na pasta app/ (necessário para o Firebase).
+---
 
-Sincronize o Gradle e execute no emulador (API 33+ recomendada).
+## 🛒 2. Sistema de Carrinho
 
-Dica: Pode copiar este texto diretamente para um ficheiro chamado README.md na raiz do seu projeto no Android Studio e fazer o git commit e push. Isso deixará o seu perfil no GitHub muito mais profissional!
+### ➕ Adição Dinâmica
+Os produtos são adicionados a uma **lista global**, mantendo o estado durante a navegação entre telas.
+
+### 📦 Visualização do Carrinho
+Tela dedicada (`CartFragments`) onde o usuário pode visualizar os produtos selecionados.
+
+### ❌ Remoção de Itens
+Remoção feita diretamente no `CarrinhoAdapter`, com:
+
+- Atualização do carrinho
+- Recalculo do preço em tempo real
+
+---
+
+## 🔐 3. Autenticação e Segurança
+
+Fluxo completo de autenticação:
+
+- Login
+- Cadastro de usuário
+
+
+Configuração de ambiente seguro via local.properties.
+
+# 🎨 Layouts
+
+Principais layouts do projeto:
+
+### `fragment_cart_fragments.xml`
+Interface principal do carrinho contendo:
+
+- Lista de itens
+- Resumo de valores
+- Total do pedido
+
+### `item_carrinho.xml`
+
+Layout customizado para cada produto no carrinho contendo:
+
+- Nome
+- Preço
+- Botão de remoção
+
+### `item_produto.xml`
+
+Card de produto utilizado na vitrine contendo:
+
+- Imagem
+- Nome
+- Preço
+- Botão de adicionar ao carrinho
+
+---
+
+# ⚙️ Instalação
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/dinofoods.git
+```
+
+Certifique-se de ter o arquivo google-services.json na pasta /app.
+
+Configure suas chaves do Appwrite no arquivo Appwrite.kt.
+
+Sincronize o Gradle e execute em um emulador ou dispositivo físico (Min SDK 24).
+
+Próximos Passos
+[ ] Implementar persistência local (Room ou SharedPreferences) para o carrinho.
+
+[ ] Adicionar animações de transição entre categorias.
+
+[ ] Finalização de checkout com integração de pagamento simulado.
+
+Desenvolvido por Davy Felix 🦖
