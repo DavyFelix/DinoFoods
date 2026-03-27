@@ -46,6 +46,13 @@ class HomeActivity : AppCompatActivity() {
         // Configura as ações do Menu Lateral
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+
+                R.id.nav_ordes -> {
+                    val intent = Intent(this, OrdesActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
                 R.id.nav_perfil -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
