@@ -14,6 +14,8 @@ object AppwriteService {
     const val DATABASE_ID = "69a784c50036d1da880b"
     const val COLLECTION_PRODUTOS = "produtos"
 
+    const val COLLECTION_USUARIOS = "usuarios"
+
     const val COLLECTION_PEDIDOS = "pedido"
 
     // No seu AppwriteService.kt
@@ -44,4 +46,16 @@ object AppwriteService {
         databaseId = DATABASE_ID,
         collectionId = COLLECTION_PEDIDOS
     )
+    suspend fun salvarPerfilUsuario(uid: String, nome: String, email: String) {
+        databases.createDocument(
+            databaseId = DATABASE_ID,
+            collectionId = COLLECTION_USUARIOS,
+            documentId = uid, // Usamos o UID do Firebase como ID do documento
+            data = mapOf(
+                "nome" to nome,
+                "email" to email,
+                "fotoCapa" to "" // Vazio por enquanto para a sua rubrica
+            )
+        )
+    }
 }

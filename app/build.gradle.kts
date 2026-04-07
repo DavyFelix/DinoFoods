@@ -60,6 +60,8 @@ dependencies {
     // Glide (com o endereço corrigido)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

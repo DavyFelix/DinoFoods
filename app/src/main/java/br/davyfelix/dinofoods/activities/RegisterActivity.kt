@@ -6,11 +6,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.R.*
 import br.davyfelix.dinofoods.databinding.ActivityRegisterBinding
+import br.davyfelix.dinofoods.services.AppwriteService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -48,30 +51,29 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
+        // 1. Cria a conta no Firebase
         auth.createUserWithEmailAndPassword(email, senha)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    val userId = auth.currentUser?.uid ?: ""
 
-                    val userId = auth.currentUser?.uid
-                    val database = FirebaseDatabase.getInstance()
-                    val userRef = database.reference.child("usuarios").child(userId!!)
+                    // 2. Salva os dados extras no Appwrite usando seu Service
+                    lifecycleScope.launch {
+                        try {
+                            AppwriteService.salvarPerfilUsuario(userId, nome, email)
 
-                    val usuario = mapOf(
-                        "id" to userId,
-                        "nome" to nome,
-                        "email" to email
-                    )
+                            Toast.makeText(this@RegisterActivity, "Cadastro e Perfil salvos!", Toast.LENGTH_SHORT).show()
 
-                    userRef.setValue(usuario)
-
-                    Toast.makeText(this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
-
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-
+                            // Ir para a LoginActivity ou Home
+                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                            finish()
+                        } catch (e: Exception) {
+                            // Log de erro caso o Appwrite falhe (ex: falta de permissão)
+                            Toast.makeText(this@RegisterActivity, "Erro Appwrite: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(this, "Erro: ${task.exception?.message}", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this, "Erro Firebase: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
     }
