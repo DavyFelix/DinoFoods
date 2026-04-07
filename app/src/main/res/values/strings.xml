@@ -25,4 +25,7 @@
     <string name="sem_conta">Não tem conta? Cadastre-se</string>
     <string name="adicionado_sucesso">"Adicionado com sucesso "</string>
     <string name="preco_formatado">R$ %.2f</string>
+    <string name="pedidos">Pedidos</string>
+    <string name="sair">Sair</string>
+    <string name="meu_perfil">Meu Perfil</string>
 </resources>

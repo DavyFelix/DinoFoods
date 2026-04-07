@@ -4,14 +4,14 @@
         <item
             android:id="@+id/nav_perfil"
             android:icon="@android:drawable/ic_menu_myplaces"
-            android:title="Meu Perfil" />
+            android:title="@string/meu_perfil" />
         <item
             android:id="@+id/nav_ordes"
             android:icon="@android:drawable/ic_menu_info_details"
-            android:title="Pedidos" />
+            android:title="@string/pedidos" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@android:drawable/ic_lock_power_off"
-            android:title="Sair" />
+            android:title="@string/sair" />
     </group>
 </menu>

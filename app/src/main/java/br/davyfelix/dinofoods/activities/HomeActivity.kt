@@ -1,73 +1,113 @@
 package br.davyfelix.dinofoods.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
+import br.davyfelix.dinofoods.R
+import br.davyfelix.dinofoods.fragments.FoodsFragments
+import br.davyfelix.dinofoods.services.AppwriteService
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import br.davyfelix.dinofoods.R
-import br.davyfelix.dinofoods.activities.ProfileActivity
-import br.davyfelix.dinofoods.fragments.FoodsFragments
+import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
-    // Declaramos para que os fragments possam acessar
     lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 1. Configurações de UI e Edge-to-Edge
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+        configurarBarraStatus()
 
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
-
-// Deixa a barra de status 100% transparente
-        window.statusBarColor = android.graphics.Color.TRANSPARENT
-
-// Garante que os ícones da barra (hora, bateria) fiquem brancos
-// Se o seu roxo for muito claro, mude para 'true' para ícones pretos
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-
+        // 2. Inicialização de componentes
         drawerLayout = findViewById(R.id.drawerLayout)
         val navView = findViewById<NavigationView>(R.id.navView)
 
-        // Carrega o fragment de comida inicialmente
+        // 3. Carregar dados do usuário no Header do Menu
+        configurarHeader(navView)
+
+        // 4. Fragment Inicial (Lista de Comidas)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FoodsFragments())
                 .commit()
         }
-        // Configura as ações do Menu Lateral
+
+        // 5. Configuração do Menu Lateral (Drawer)
+        configurarNavigation(navView)
+    }
+
+    private fun configurarBarraStatus() {
+        window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            // false = ícones brancos | true = ícones pretos
+            isAppearanceLightStatusBars = false
+        }
+    }
+
+    private fun configurarNavigation(navView: NavigationView) {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-
                 R.id.nav_ordes -> {
-                    val intent = Intent(this, OrdesActivity::class.java)
-                    startActivity(intent)
-                    finish()
-
+                    startActivity(Intent(this, OrdesActivity::class.java))
                 }
                 R.id.nav_perfil -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    startActivity(Intent(this, ProfileActivity::class.java))
                 }
                 R.id.nav_logout -> {
                     FirebaseAuth.getInstance().signOut()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    val intent = Intent(this, LoginActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
                     startActivity(intent)
                     finish()
                 }
             }
             drawerLayout.closeDrawers()
             true
+        }
+    }
+
+    private fun configurarHeader(navView: NavigationView) {
+        val headerView = navView.getHeaderView(0)
+        val txtNome = headerView.findViewById<TextView>(R.id.txtNome)
+        val txtEmail = headerView.findViewById<TextView>(R.id.txtEmail)
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser != null) {
+            lifecycleScope.launch {
+                try {
+                    // Busca dados no Appwrite usando o UID do Firebase
+                    val documento = AppwriteService.getDatabase().getDocument(
+                        databaseId = AppwriteService.DATABASE_ID,
+                        collectionId = AppwriteService.COLLECTION_USUARIOS,
+                        documentId = currentUser.uid
+                    )
+
+                    val nome = documento.data["nome"]?.toString() ?: "Explorador"
+                    val email = documento.data["email"]?.toString() ?: currentUser.email
+
+                    txtNome.text = "Olá, $nome!"
+                    txtEmail.text = email
+
+                } catch (e: Exception) {
+                    Log.e("Appwrite", "Erro ao carregar perfil: ${e.message}")
+                    // Fallback para dados básicos do Firebase em caso de erro de rede
+                    txtNome.text = "Olá, Explorador!"
+                    txtEmail.text = currentUser.email
+                }
+            }
         }
     }
 }

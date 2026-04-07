@@ -10,11 +10,13 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/imgPerfilHeader"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
+        android:id="@+id/txtNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -23,7 +25,8 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dino@foods.com" />
+        android:text="carregando..." />
 </LinearLayout>
