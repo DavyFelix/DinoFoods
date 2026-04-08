@@ -15,7 +15,8 @@ import br.davyfelix.dinofoods.data.Produto
 
 class ProdutoAdapter(
     private var lista: List<Produto>,
-    private val onProdutoAdicionado: ((Produto) -> Unit)? = null
+    // Mudamos o nome para ficar claro que é o clique no item para detalhes
+    private val onItemClick: (Produto) -> Unit
 ) : RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder>() {
 
     class ProdutoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,14 +45,20 @@ class ProdutoAdapter(
             .error(android.R.drawable.ic_menu_report_image)
             .into(holder.imagem)
 
+        // --- COMPORTAMENTO 1: CLIQUE NO CARD (ABRE DETALHES) ---
+        holder.itemView.setOnClickListener {
+            onItemClick(produto)
+        }
+
+        // --- COMPORTAMENTO 2: CLIQUE NO BOTÃO (ADICIONA DIRETO) ---
         holder.btnAdicionar.setOnClickListener {
             Carrinho.adicionar(produto)
             Toast.makeText(
                 holder.itemView.context,
-                "${produto.productName} ${holder.itemView.context.getString(R.string.adicionado_sucesso)}",
+                "${produto.productName} adicionado!",
                 Toast.LENGTH_SHORT
             ).show()
-            onProdutoAdicionado?.invoke(produto)
+            // Se quiser que algo aconteça no Fragment após adicionar, pode manter o invoke aqui
         }
     }
 

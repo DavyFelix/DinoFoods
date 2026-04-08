@@ -28,4 +28,5 @@
     <string name="pedidos">Pedidos</string>
     <string name="sair">Sair</string>
     <string name="meu_perfil">Meu Perfil</string>
+    <string name="meus_pedidos">Meus Pedidos</string>
 </resources>

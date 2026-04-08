@@ -59,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_ordes -> {
-                    startActivity(Intent(this, OrdesActivity::class.java))
+                    startActivity(Intent(this, OrdersActivity::class.java))
                 }
                 R.id.nav_perfil -> {
                     startActivity(Intent(this, ProfileActivity::class.java))

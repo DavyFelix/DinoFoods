@@ -7,8 +7,8 @@ import br.davyfelix.dinofoods.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OrdesAdapter(private val pedidos: List<Ordes>) :
-    RecyclerView.Adapter<OrdesAdapter.PedidoViewHolder>() {
+class OrdersAdapter(private val pedidos: List<Orders>) :
+    RecyclerView.Adapter<OrdersAdapter.PedidoViewHolder>() {
 
     class PedidoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvId: TextView = view.findViewById(R.id.tvIdPedido)

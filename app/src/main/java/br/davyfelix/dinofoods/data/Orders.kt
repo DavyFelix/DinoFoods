@@ -1,4 +1,4 @@
-data class Ordes(
+data class Orders(
     val id: String,
     val status: String,
     val timestamp: Long,

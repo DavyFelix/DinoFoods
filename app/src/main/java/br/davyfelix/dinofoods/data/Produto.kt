@@ -4,5 +4,5 @@ data class Produto(
     val productName: String,
     val description: String,
     val price: Double,
-    val imagemID: String? = null
-)
+    val imagemID: String
+) : java.io.Serializable

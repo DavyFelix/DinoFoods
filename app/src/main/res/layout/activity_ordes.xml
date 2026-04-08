@@ -6,20 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/roxo_fundo"
-    tools:context=".activities.OrdesActivity">
+    tools:context=".activities.OrdersActivity">
 
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Meus Pedidos"
+        android:text="@string/meus_pedidos"
         android:textSize="26sp"
         android:fontFamily="sans-serif-black"
         android:textColor="@color/roxo_primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Voltar"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/branco" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPedidos"

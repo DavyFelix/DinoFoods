@@ -27,4 +27,5 @@
     <string name="pedidos">Orders</string>
     <string name="sair">Exit</string>
     <string name="meu_perfil">My Profile</string>
+    <string name="meus_pedidos">My Orders</string>
 </resources>
