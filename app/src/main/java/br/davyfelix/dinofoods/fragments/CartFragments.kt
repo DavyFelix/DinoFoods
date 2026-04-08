@@ -19,6 +19,7 @@ import br.davyfelix.dinofoods.data.Carrinho
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import br.davyfelix.dinofoods.services.AppwriteService
+import com.google.firebase.auth.FirebaseAuth
 
 class CarrinhoFragment : Fragment() {
 
@@ -63,13 +64,19 @@ class CarrinhoFragment : Fragment() {
         btnFinalizar.setOnClickListener {
             if (Carrinho.itens.isNotEmpty()) {
 
-                // Em vez de criar um novo, usamos o que já está no seu Service
+                // 1. Pegar a instância do Firebase Auth
+                val userFirebase = FirebaseAuth.getInstance().currentUser
+
+                // 2. Verificar se o usuário está realmente logado
+                if (userFirebase == null) {
+                    Toast.makeText(requireContext(), "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // 3. Pegar o email do Firebase
+                val email = userFirebase.email ?: "email_desconhecido@teste.com"
+
                 val database = AppwriteService.getDatabase()
-
-                // Se você ainda não tem a lógica de pegar o e-mail do usuário logado:
-                val email = "cliente@teste.com"
-
-                // Transforma a lista de itens em JSON (certifique-se de ter a lib Gson no build.gradle)
                 val itensJson = Gson().toJson(Carrinho.itens)
 
                 val pedidoData = mapOf(
@@ -77,6 +84,8 @@ class CarrinhoFragment : Fragment() {
                     "status" to "pendente",
                     "timestamp" to System.currentTimeMillis(),
                     "itens" to itensJson
+                    // Se você precisar do ID do usuário do Appwrite futuramente,
+                    // precisaria fazer um "listDocuments" na sua tabela de usuários antes.
                 )
 
                 lifecycleScope.launch {
@@ -84,7 +93,7 @@ class CarrinhoFragment : Fragment() {
                         database.createDocument(
                             databaseId = AppwriteService.DATABASE_ID,
                             collectionId = AppwriteService.COLLECTION_PEDIDOS,
-                            documentId = io.appwrite.ID.unique(), // Aqui usamos o ID do Appwrite
+                            documentId = io.appwrite.ID.unique(),
                             data = pedidoData
                         )
 

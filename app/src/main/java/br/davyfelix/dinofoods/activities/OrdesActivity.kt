@@ -1,5 +1,7 @@
 package br.davyfelix.dinofoods.activities
 
+import Ordes
+import OrdesAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.services.AppwriteService
+import com.google.firebase.auth.FirebaseAuth
+import io.appwrite.Query
 import kotlinx.coroutines.launch
 
 class OrdesActivity : AppCompatActivity() {
@@ -26,46 +30,61 @@ class OrdesActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_ordes)
 
-        // Configuração das bordas do sistema (Edge-to-Edge)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // 1. Inicializar os componentes da tela
-        rvPedidos = findViewById(R.id.rvPedidos) // Certifique-se que o ID no XML é este
+        rvPedidos = findViewById(R.id.rvPedidos)
         progressBar = findViewById(R.id.progressBar)
 
         rvPedidos.layoutManager = LinearLayoutManager(this)
 
-        // 2. Chamar a função para carregar os dados
         carregarPedidosDoAppwrite()
     }
 
     private fun carregarPedidosDoAppwrite() {
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email
+
+        if (userEmail == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
-                // Busca os documentos na coleção de pedidos
+                // 1. Busca os documentos filtrando pelo e-mail
                 val response = AppwriteService.getDatabase().listDocuments(
                     databaseId = AppwriteService.DATABASE_ID,
-                    collectionId = AppwriteService.COLLECTION_PEDIDOS
+                    collectionId = AppwriteService.COLLECTION_PEDIDOS,
+                    queries = listOf(
+                        Query.equal("email", userEmail)
+                    )
                 )
 
-                val listaDePedidos = response.documents
+                // 2. Converte os documentos do Appwrite para a lista de objetos Pedido
+                val listaDePedidos = response.documents.map { doc ->
+                    Ordes(
+                        id = doc.id,
+                        status = doc.data["status"].toString(),
+                        timestamp = (doc.data["timestamp"] as? Number)?.toLong() ?: 0L,
+                        itens = doc.data["itens"].toString()
+                    )
+                }
 
+                // 3. Atualiza a UI
                 if (listaDePedidos.isEmpty()) {
                     Toast.makeText(this@OrdesActivity, "Você ainda não tem pedidos.", Toast.LENGTH_SHORT).show()
                 } else {
-                    // 3. Aqui você vai configurar o seu Adapter
-                    // Exemplo: rvPedidos.adapter = PedidosAdapter(listaDePedidos)
-                    Log.d("ORDES_APPWRITE", "Pedidos encontrados: ${listaDePedidos.size}")
+                    rvPedidos.adapter = OrdesAdapter(listaDePedidos)
+                    Log.d("ORDES_APPWRITE", "Pedidos carregados: ${listaDePedidos.size}")
                 }
 
             } catch (e: Exception) {
-                Log.e("ORDES_ERROR", "Erro ao buscar pedidos: ${e.message}")
+                Log.e("ORDES_ERROR", "Erro: ${e.message}")
                 Toast.makeText(this@OrdesActivity, "Erro ao carregar pedidos", Toast.LENGTH_SHORT).show()
             } finally {
                 progressBar.visibility = View.GONE
