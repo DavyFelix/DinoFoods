@@ -43,19 +43,19 @@ class LoginActivity : AppCompatActivity() {
             val passwordText = password.text.toString().trim()
 
             if (emailText.isEmpty() || passwordText.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.campos), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             auth.signInWithEmailAndPassword(emailText, passwordText)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.login), Toast.LENGTH_SHORT).show()
                         irParaHome()
                     } else {
                         Toast.makeText(
                             this,
-                            "Erro: ${task.exception?.message}",
+                            getString(R.string.erro, task.exception?.message),
                             Toast.LENGTH_LONG
                         ).show()
                     }

@@ -11,7 +11,7 @@
     <View
         android:id="@+id/viewHeader"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
         android:background="@color/roxo_primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,29 +19,31 @@
 
     <ImageButton
         android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="52dp"
+        android:background="@android:drawable/ic_menu_revert"
         android:contentDescription="Voltar"
         android:padding="8dp"
         android:src="@android:drawable/ic_menu_revert"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/branco" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgProfile"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:padding="2dp"
-        android:scaleType="centerCrop"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="120dp"
         android:background="@color/roxo_claro"
-        app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewHeader"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.LargeComponent"
         app:strokeColor="@color/branco"
         app:strokeWidth="4dp" />
 
@@ -50,13 +52,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Davy Felix"
+        android:text="@string/user"
         android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
     <TextView
         android:id="@+id/txtBio"
         android:layout_width="0dp"
@@ -65,7 +68,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="Android Developer | Dinofoods Project"
+        android:text="@string/teste_gmail_com"
         android:textColor="@color/cinza_texto"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,14 +77,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEditProfile"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Editar Perfil"
+        android:layout_marginTop="12dp"
+        android:text="@string/editar_perfil"
         android:textAllCaps="false"
         android:textColor="@color/roxo_primario"
-        app:backgroundTint="@color/roxo_claro"
-        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtBio" />
@@ -93,10 +95,9 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="@color/branco"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:strokeColor="@color/cinza_claro"
-        app:strokeWidth="1dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEditProfile">
@@ -107,43 +108,76 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/containerPedidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="📦 Meus Pedidos"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/meus_pedidos"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/arrow_down_float"
+                    android:rotation="-90"
+                    app:tint="@color/cinza_texto" />
+            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/cinza_claro" />
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/roxo_fundo" android:layout_marginHorizontal="16dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="📍 Meus Endereços"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/cinza_claro" />
-
-            <TextView
-                android:id="@+id/txtLogout"
+            <LinearLayout
+                android:id="@+id/containerEnderecos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="🚪 Sair da Conta"
-                android:textColor="@color/roxo_escuro"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/meus_endere_os"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/arrow_down_float"
+                    android:rotation="-90"
+                    app:tint="@color/cinza_texto" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/roxo_fundo" android:layout_marginHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/txtLogoutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/txtLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sair_da_conta"
+                    android:textColor="@color/roxo_escuro"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -16,6 +16,7 @@ import br.davyfelix.dinofoods.services.AppwriteService
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import kotlin.jvm.java
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -49,8 +50,12 @@ class ProfileActivity : AppCompatActivity() {
         // Botão Editar Perfil
         val btnEdit = findViewById<MaterialButton>(R.id.btnEditProfile)
         btnEdit.setOnClickListener {
-            Toast.makeText(this, "Abrir edição de perfil", Toast.LENGTH_SHORT).show()
-            // Aqui você faria o Intent para a tela de edição
+        }
+        // Opção Pedidos
+        val layoutPedidos = findViewById<android.view.View>(R.id.containerPedidos)
+        layoutPedidos.setOnClickListener {
+            val intent = Intent(this, OrdersActivity::class.java)
+            startActivity(intent)
         }
 
         // Opção Sair
@@ -81,7 +86,7 @@ class ProfileActivity : AppCompatActivity() {
                     val nome = documento.data["nome"]?.toString() ?: "Explorador"
                     val email = documento.data["email"]?.toString() ?: currentUser.email
 
-                    txtNome.text = "Olá, $nome!"
+                    txtNome.text = getString(R.string.ol, nome)
                     txtEmail.text = email
 
                 } catch (e: Exception) {

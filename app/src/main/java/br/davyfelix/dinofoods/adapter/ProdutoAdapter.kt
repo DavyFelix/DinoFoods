@@ -52,10 +52,11 @@ class ProdutoAdapter(
 
         // --- COMPORTAMENTO 2: CLIQUE NO BOTÃO (ADICIONA DIRETO) ---
         holder.btnAdicionar.setOnClickListener {
+            val context = holder.itemView.context
             Carrinho.adicionar(produto)
             Toast.makeText(
                 holder.itemView.context,
-                "${produto.productName} adicionado!",
+                context.getString(R.string.adicionadoItem, produto.productName),
                 Toast.LENGTH_SHORT
             ).show()
             // Se quiser que algo aconteça no Fragment após adicionar, pode manter o invoke aqui

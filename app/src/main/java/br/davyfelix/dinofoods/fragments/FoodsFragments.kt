@@ -85,7 +85,8 @@ class FoodsFragments : Fragment() {
         // 6. Botão Flutuante (Carrinho)
         fab.setOnClickListener {
             if (Carrinho.itens.isEmpty()) {
-                Toast.makeText(requireContext(), "O carrinho está vazio!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.carrinho_vazio), Toast.LENGTH_SHORT).show()
             } else {
                 navegarParaFragment(CarrinhoFragment())
             }

@@ -73,7 +73,7 @@ class OrderDetailsFragment : Fragment() {
             var totalPedido = 0.0
 
             lista.forEach { item ->
-                val nome = item["productName"] ?: "Item desconhecido"
+                val nome = item["productName"] ?: getString(R.string.item_desconhecido)
                 val preco = (item["price"] as? Number)?.toDouble() ?: 0.0
 
                 // Formata cada linha: "• Nome do Item - R$ 00,00"
@@ -81,12 +81,12 @@ class OrderDetailsFragment : Fragment() {
                 totalPedido += preco
             }
 
-            builder.append("\nTotal do Pedido: R$ %.2f".format(totalPedido))
+            builder.append(getString(R.string.tpedido).format(totalPedido))
             builder.toString()
 
         } catch (e: Exception) {
             // Se o JSON for o formato antigo (gigante) ou der erro, mostra o texto original
-            "Erro ao processar itens ou formato antigo:\n$jsonItens"
+            getString(R.string.json, jsonItens)
         }
     }
 }

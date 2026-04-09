@@ -27,7 +27,6 @@ class HomeActivity : AppCompatActivity() {
         // 1. Configurações de UI e Edge-to-Edge
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-        configurarBarraStatus()
 
         // 2. Inicialização de componentes
         drawerLayout = findViewById(R.id.drawerLayout)
@@ -45,14 +44,6 @@ class HomeActivity : AppCompatActivity() {
 
         // 5. Configuração do Menu Lateral (Drawer)
         configurarNavigation(navView)
-    }
-
-    private fun configurarBarraStatus() {
-        window.statusBarColor = Color.TRANSPARENT
-        WindowInsetsControllerCompat(window, window.decorView).apply {
-            // false = ícones brancos | true = ícones pretos
-            isAppearanceLightStatusBars = false
-        }
     }
 
     private fun configurarNavigation(navView: NavigationView) {

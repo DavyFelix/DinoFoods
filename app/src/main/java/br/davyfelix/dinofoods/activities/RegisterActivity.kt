@@ -62,18 +62,21 @@ class RegisterActivity : AppCompatActivity() {
                         try {
                             AppwriteService.salvarPerfilUsuario(userId, nome, email)
 
-                            Toast.makeText(this@RegisterActivity, "Cadastro e Perfil salvos!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@RegisterActivity,
+                                getString(string.cadastro_salvos), Toast.LENGTH_SHORT).show()
 
                             // Ir para a LoginActivity ou Home
                             startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                             finish()
                         } catch (e: Exception) {
                             // Log de erro caso o Appwrite falhe (ex: falta de permissão)
-                            Toast.makeText(this@RegisterActivity, "Erro Appwrite: ${e.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@RegisterActivity,
+                                getString(string.erro_appwrite, e.message), Toast.LENGTH_LONG).show()
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Erro Firebase: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,
+                        getString(string.erro_firebase, task.exception?.message), Toast.LENGTH_LONG).show()
                 }
             }
     }

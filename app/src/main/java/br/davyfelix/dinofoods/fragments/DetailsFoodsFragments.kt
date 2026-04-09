@@ -45,7 +45,8 @@ class DetailsFoodsFragment : Fragment() {
 
             btnAdd.setOnClickListener {
                 Carrinho.itens.add(p)
-                Toast.makeText(requireContext(), "${p.productName} adicionado!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.adicionado, p.productName), Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack() // Volta para a lista após adicionar
             }
         }

@@ -42,8 +42,6 @@ class OrdersActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
@@ -56,7 +54,7 @@ class OrdersActivity : AppCompatActivity() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email
 
         if (userEmail == null) {
-            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.vautenticado), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -85,7 +83,8 @@ class OrdersActivity : AppCompatActivity() {
 
                 // 3. Atualiza a UI
                 if (listaDePedidos.isEmpty()) {
-                    Toast.makeText(this@OrdersActivity, "Você ainda não tem pedidos.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@OrdersActivity,
+                        getString(R.string.sem_pedidos), Toast.LENGTH_SHORT).show()
                 } else {
 
                     val adapter = OrdersAdapter(listaDePedidos) { pedidoSelecionado ->
@@ -108,7 +107,8 @@ class OrdersActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 Log.e("ORDES_ERROR", "Erro: ${e.message}")
-                Toast.makeText(this@OrdersActivity, "Erro ao carregar pedidos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@OrdersActivity,
+                    getString(R.string.erro_pedidos), Toast.LENGTH_SHORT).show()
             } finally {
                 progressBar.visibility = View.GONE
             }

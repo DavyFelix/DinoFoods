@@ -52,7 +52,8 @@ class CarrinhoFragment : Fragment() {
             atualizarTotal(tvTotal)
 
             if (Carrinho.itens.isEmpty()) {
-                Toast.makeText(requireContext(), "Seu carrinho ficou vazio!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.seu_carrinho_ficou_vazio), Toast.LENGTH_SHORT).show()
                 // Opcional: fechar a tela se o carrinho esvaziar
                 // parentFragmentManager.popBackStack()
             }
@@ -69,7 +70,8 @@ class CarrinhoFragment : Fragment() {
 
                 // 2. Verificar se o usuário está realmente logado
                 if (userFirebase == null) {
-                    Toast.makeText(requireContext(), "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.vautenticado), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
@@ -97,24 +99,27 @@ class CarrinhoFragment : Fragment() {
                             data = pedidoData
                         )
 
-                        Toast.makeText(requireContext(), "Pedido enviado! 🍽️", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.pedido_enviado), Toast.LENGTH_LONG).show()
                         Carrinho.itens.clear()
                         parentFragmentManager.popBackStack()
 
                     } catch (e: Exception) {
                         Log.e("APPWRITE_ERROR", "Erro: ${e.message}")
-                        Toast.makeText(requireContext(), "Erro ao enviar pedido!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.erro_ao_enviar_pedido), Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Adicione itens primeiro!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.adicione_itens_primeiro), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun atualizarTotal(tvTotal: TextView) {
         val total = Carrinho.itens.sumOf { it.price }
-        tvTotal.text = "Total: R$ %.2f".format(total)
+        tvTotal.text = getString(R.string.total_r_2f).format(total)
     }
 }
 
