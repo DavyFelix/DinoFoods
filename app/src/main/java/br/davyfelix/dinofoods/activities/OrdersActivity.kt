@@ -87,8 +87,23 @@ class OrdersActivity : AppCompatActivity() {
                 if (listaDePedidos.isEmpty()) {
                     Toast.makeText(this@OrdersActivity, "Você ainda não tem pedidos.", Toast.LENGTH_SHORT).show()
                 } else {
-                    rvPedidos.adapter = OrdersAdapter(listaDePedidos)
-                    Log.d("ORDES_APPWRITE", "Pedidos carregados: ${listaDePedidos.size}")
+
+                    val adapter = OrdersAdapter(listaDePedidos) { pedidoSelecionado ->
+                        // 1. Instancia o fragmento de detalhes
+                        val fragment = br.davyfelix.dinofoods.fragments.OrderDetailsFragment()
+
+                        // 2. Prepara os dados para enviar (O Bundle)
+                        val bundle = Bundle()
+                        bundle.putSerializable("pedido", pedidoSelecionado) // A classe Orders deve ser Serializable!
+                        fragment.arguments = bundle
+
+                        // 3. Abre o fragmento
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.main, fragment) // Substitui a lista pelo detalhe
+                            .addToBackStack(null)         // Permite voltar para a lista
+                            .commit()
+                    }
+                    rvPedidos.adapter = adapter
                 }
 
             } catch (e: Exception) {

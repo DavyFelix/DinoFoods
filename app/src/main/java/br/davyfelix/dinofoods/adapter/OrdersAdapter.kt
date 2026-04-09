@@ -7,8 +7,11 @@ import br.davyfelix.dinofoods.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OrdersAdapter(private val pedidos: List<Orders>) :
-    RecyclerView.Adapter<OrdersAdapter.PedidoViewHolder>() {
+// Adicionamos o lambda (onItemClick) no construtor
+class OrdersAdapter(
+    private val pedidos: List<Orders>,
+    private val onItemClick: (Orders) -> Unit
+) : RecyclerView.Adapter<OrdersAdapter.PedidoViewHolder>() {
 
     class PedidoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvId: TextView = view.findViewById(R.id.tvIdPedido)
@@ -28,10 +31,13 @@ class OrdersAdapter(private val pedidos: List<Orders>) :
         holder.tvId.text = "Pedido: ${pedido.id.takeLast(6).uppercase()}"
         holder.tvStatus.text = "Status: ${pedido.status}"
 
-        // Formatação da data
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        val dataFormatada = sdf.format(Date(pedido.timestamp))
-        holder.tvData.text = dataFormatada
+        holder.tvData.text = sdf.format(Date(pedido.timestamp))
+
+        // CONFIGURA O CLIQUE
+        holder.itemView.setOnClickListener {
+            onItemClick(pedido)
+        }
     }
 
     override fun getItemCount() = pedidos.size
