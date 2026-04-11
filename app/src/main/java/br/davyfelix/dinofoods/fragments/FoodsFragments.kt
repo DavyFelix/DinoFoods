@@ -25,6 +25,7 @@ import br.davyfelix.dinofoods.data.Carrinho
 import br.davyfelix.dinofoods.data.Produto
 import br.davyfelix.dinofoods.services.AppwriteService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class FoodsFragments : Fragment() {
@@ -43,6 +44,12 @@ class FoodsFragments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            carregarProdutos()
+        } else {
+            Log.e("FoodsFragment", "Usuário nulo ao carregar lista")
+        }
 
         // 1. Inicialização das Views
         recyclerView = view.findViewById(R.id.rvProdutos)

@@ -54,4 +54,5 @@
     <string name="carrinho_vazio">Your cart is empty!</string>
     <string name="adicionado">%1$s added!</string>
     <string name="adicionadoItem">%1$s added!</string>
+    <string name="esqueci_senha">Forget you password ?</string>
 </resources>

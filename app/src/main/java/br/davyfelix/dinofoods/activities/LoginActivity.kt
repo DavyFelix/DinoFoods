@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvRegister = findViewById<TextView>(R.id.tvRegister)
+        val tvEsqueciaSenha = findViewById<TextView>(R.id.tvEsqueciaSenha)
 
         btnLogin.setOnClickListener {
             val emailText = email.text.toString().trim()
@@ -66,6 +67,9 @@ class LoginActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        tvEsqueciaSenha.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
 
         tvRegister.setOnClickListener {
