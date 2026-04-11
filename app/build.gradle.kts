@@ -53,6 +53,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     // ... firebase e appwrite ...
     implementation("io.appwrite:sdk-for-android:5.1.0")
     // Forçamos a biblioteca direta em vez do BOM

@@ -18,6 +18,8 @@ object AppwriteService {
 
     const val COLLECTION_PEDIDOS = "pedido"
 
+    const val BUCKET_ID = "69a7874e00169355f884"
+
     // No seu AppwriteService.kt
 
     fun init(context: Context) {
@@ -32,6 +34,8 @@ object AppwriteService {
     fun getDatabase(): Databases {
         return databases
     }
+
+    fun getStorage(): Storage = storage
 
     fun getImageUrl(fileId: String): String {
         return "https://nyc.cloud.appwrite.io/v1/storage/buckets/69a7874e00169355f884/files/$fileId/view?project=69a7800f0010f71f3348&mode=admin"

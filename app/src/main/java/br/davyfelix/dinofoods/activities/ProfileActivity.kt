@@ -3,9 +3,9 @@ package br.davyfelix.dinofoods.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,19 +13,33 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import br.davyfelix.dinofoods.R
 import br.davyfelix.dinofoods.services.AppwriteService
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import kotlin.jvm.java
 
 class ProfileActivity : AppCompatActivity() {
 
+    // Variáveis globais para evitar NullPointerException
+    private lateinit var layoutReal: View
+    private lateinit var layoutSkeleton: com.facebook.shimmer.ShimmerFrameLayout
+    private lateinit var imgProfile: ShapeableImageView
+    private lateinit var txtNome: TextView
+    private lateinit var txtEmail: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Habilita o modo tela cheia (Edge-to-Edge)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
+
+        // 1. Inicialização de todas as Views
+        layoutReal = findViewById(R.id.layoutReal)
+        layoutSkeleton = findViewById(R.id.shimmer_view_container)
+        imgProfile = findViewById(R.id.imgProfile)
+        txtNome = findViewById(R.id.txtUserName)
+        txtEmail = findViewById(R.id.txtBio)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -33,34 +47,33 @@ class ProfileActivity : AppCompatActivity() {
             insets
         }
 
-        profile()
-
         configurarCliques()
     }
 
-    private fun configurarCliques() {
+    override fun onResume() {
+        super.onResume()
+        // Chamamos aqui para atualizar sempre que o usuário voltar da edição
+        carregarDadosPerfil()
+    }
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+    private fun configurarCliques() {
+        // Botão Voltar
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()
         }
 
-        // Botão Editar Perfil
-        val btnEdit = findViewById<MaterialButton>(R.id.btnEditProfile)
-        btnEdit.setOnClickListener {
-        }
-        // Opção Pedidos
-        val layoutPedidos = findViewById<android.view.View>(R.id.containerPedidos)
-        layoutPedidos.setOnClickListener {
-            val intent = Intent(this, OrdersActivity::class.java)
-            startActivity(intent)
+        // Editar Perfil
+        findViewById<MaterialButton>(R.id.btnEditProfile).setOnClickListener {
+            startActivity(Intent(this, EditProfileActivity::class.java))
         }
 
-        // Opção Sair
-        val txtLogout = findViewById<TextView>(R.id.txtLogout)
-        txtLogout.setOnClickListener {
+        // Meus Pedidos
+        findViewById<View>(R.id.containerPedidos).setOnClickListener {
+            startActivity(Intent(this, OrdersActivity::class.java))
+        }
+
+        // Sair da Conta
+        findViewById<View>(R.id.txtLogoutContainer).setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -68,33 +81,56 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun profile() {
-        val txtNome = findViewById<TextView>(R.id.txtUserName)
-        val txtEmail = findViewById<TextView>(R.id.txtBio)
-        val currentUser = FirebaseAuth.getInstance().currentUser
 
-        if (currentUser != null) {
-            lifecycleScope.launch {
-                try {
-                    // Busca dados no Appwrite usando o UID do Firebase
-                    val documento = AppwriteService.getDatabase().getDocument(
-                        databaseId = AppwriteService.DATABASE_ID,
-                        collectionId = AppwriteService.COLLECTION_USUARIOS,
-                        documentId = currentUser.uid
-                    )
+    private fun carregarDadosPerfil() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
 
-                    val nome = documento.data["nome"]?.toString() ?: "Explorador"
-                    val email = documento.data["email"]?.toString() ?: currentUser.email
+        // Inicia o Skeleton
+        layoutReal.visibility = View.GONE
+        layoutSkeleton.visibility = View.VISIBLE
+        layoutSkeleton.startShimmer()
 
-                    txtNome.text = getString(R.string.ol, nome)
-                    txtEmail.text = email
+        lifecycleScope.launch {
+            try {
+                // Busca no Appwrite
+                val documento = AppwriteService.getDatabase().getDocument(
+                    databaseId = AppwriteService.DATABASE_ID,
+                    collectionId = AppwriteService.COLLECTION_USUARIOS,
+                    documentId = currentUser.uid
+                )
 
-                } catch (e: Exception) {
-                    Log.e("Appwrite", "Erro ao carregar perfil: ${e.message}")
-                    // Fallback para dados básicos do Firebase em caso de erro de rede
-                    txtNome.text = "Olá, Explorador!"
-                    txtEmail.text = currentUser.email
+                val nome = documento.data["nome"]?.toString() ?: "Explorador"
+                val email = documento.data["email"]?.toString() ?: currentUser.email
+                val fotoId = documento.data["fotoCapa"]?.toString()
+
+                // Atualiza Textos
+                txtNome.text = getString(R.string.ol, nome)
+                txtEmail.text = email
+
+                // Carrega Imagem
+                if (!fotoId.isNullOrEmpty()) {
+                    val url = AppwriteService.getImageUrl(fotoId)
+                    Glide.with(this@ProfileActivity)
+                        .load(url)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE) // Garante que pegue a foto nova
+                        .skipMemoryCache(true)
+                        .into(imgProfile)
                 }
+
+                // Desliga Skeleton e mostra layout real
+                layoutSkeleton.stopShimmer()
+                layoutSkeleton.visibility = View.GONE
+                layoutReal.visibility = View.VISIBLE
+
+            } catch (e: Exception) {
+                Log.e("Appwrite", "Erro: ${e.message}")
+                // Fallback em caso de erro
+                layoutSkeleton.stopShimmer()
+                layoutSkeleton.visibility = View.GONE
+                layoutReal.visibility = View.VISIBLE
+                txtNome.text = "Olá, Explorador"
+                txtEmail.text = currentUser.email
             }
         }
     }
