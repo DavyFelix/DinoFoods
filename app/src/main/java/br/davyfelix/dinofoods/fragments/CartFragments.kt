@@ -22,6 +22,11 @@ import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import br.davyfelix.dinofoods.services.AppwriteService
 import com.google.firebase.auth.FirebaseAuth
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.core.app.NotificationCompat
 
 class CarrinhoFragment : Fragment() {
 
@@ -69,20 +74,13 @@ class CarrinhoFragment : Fragment() {
         atualizarTotal(tvTotal)
         btnFinalizar.setOnClickListener {
             if (Carrinho.itens.isNotEmpty()) {
-
-                // 1. Pegar a instância do Firebase Auth
                 val userFirebase = FirebaseAuth.getInstance().currentUser
-
-                // 2. Verificar se o usuário está realmente logado
                 if (userFirebase == null) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.vautenticado), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.vautenticado), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
-                // 3. Pegar o email do Firebase
-                val email = userFirebase.email ?: "email_desconhecido@teste.com"
-
+                val email = userFirebase.email ?: "email@teste.com"
                 val database = AppwriteService.getDatabase()
                 val itensJson = Gson().toJson(Carrinho.itens)
 
@@ -91,8 +89,6 @@ class CarrinhoFragment : Fragment() {
                     "status" to "pendente",
                     "timestamp" to System.currentTimeMillis(),
                     "itens" to itensJson
-                    // Se você precisar do ID do usuário do Appwrite futuramente,
-                    // precisaria fazer um "listDocuments" na sua tabela de usuários antes.
                 )
 
                 lifecycleScope.launch {
@@ -104,24 +100,55 @@ class CarrinhoFragment : Fragment() {
                             data = pedidoData
                         )
 
-                        Toast.makeText(requireContext(),
-                            getString(R.string.pedido_enviado), Toast.LENGTH_LONG).show()
+                        // --- NOTIFICAÇÃO DISPARADA AQUI ---
+                        dispararNotificacaoSucesso()
+
+                        Toast.makeText(requireContext(), getString(R.string.pedido_enviado), Toast.LENGTH_LONG).show()
+
                         Carrinho.itens.clear()
                         parentFragmentManager.popBackStack()
 
                     } catch (e: Exception) {
                         Log.e("APPWRITE_ERROR", "Erro: ${e.message}")
-                        Toast.makeText(requireContext(),
-                            getString(R.string.erro_ao_enviar_pedido), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.erro_ao_enviar_pedido), Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                Toast.makeText(requireContext(),
-                    getString(R.string.adicione_itens_primeiro), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.adicione_itens_primeiro), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun dispararNotificacaoSucesso() {
+        try {
+            val canalId = "confirmacao_pedido"
+            val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val canal = NotificationChannel(
+                    canalId,
+                    "Confirmação de Pedido",
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+                notificationManager.createNotificationChannel(canal)
+            }
+
+            val notificacao = NotificationCompat.Builder(requireContext(), canalId)
+                // ALTERAÇÃO AQUI: Usando um ícone nativo do Android para teste
+                .setSmallIcon(R.drawable.bg_skeleton_circle)
+                .setContentTitle("DinoFoods")
+                .setContentText("Pedido enviado com sucesso! 🦖")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .build()
+
+            notificationManager.notify(System.currentTimeMillis().toInt(), notificacao)
+            Log.d("NOTIFICACAO", "Sucesso ao enviar!")
+
+        } catch (e: Exception) {
+            Log.e("NOTIFICACAO_ERROR", "Erro no builder: ${e.message}")
+        }
+    }
     private fun atualizarTotal(tvTotal: TextView) {
         val total = Carrinho.itens.sumOf { it.price }
         tvTotal.text = getString(R.string.total_r_2f).format(total)

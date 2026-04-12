@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.firebase.appdistribution") version "5.1.1"
     id("com.google.gms.google-services")
 }
 configurations.all {
@@ -34,6 +35,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            // Configuração do App Distribution unificada aqui:
+            configure<com.google.firebase.appdistribution.gradle.AppDistributionExtension> {
+                artifactType = "APK"
+                testers = "davyfelix@exemplo.com"
+            }
         }
     }
     compileOptions {
@@ -56,6 +63,10 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("io.coil-kt:coil:2.6.0")
+
+    // Cloud Messaging e Analytics
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     // ... firebase e appwrite ...
     implementation("io.appwrite:sdk-for-android:5.1.0")
