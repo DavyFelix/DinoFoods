@@ -1,5 +1,6 @@
 package br.davyfelix.dinofoods.fragments
 
+import android.content.Intent
 import android.os.Build.ID
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -37,6 +39,9 @@ class CarrinhoFragment : Fragment() {
         val rvCarrinho = view.findViewById<RecyclerView>(R.id.rvCarrinho)
         val tvTotal = view.findViewById<TextView>(R.id.tvTotal)
         val btnFinalizar = view.findViewById<Button>(R.id.btnFinalizar)
+        val btnBackCart = view.findViewById<ImageButton>(R.id.btnBackCart)
+
+        btnBackCart.setOnClickListener { parentFragmentManager.popBackStack() }
 
         rvCarrinho.layoutManager = LinearLayoutManager(requireContext())
 

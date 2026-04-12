@@ -5,8 +5,9 @@
     <color name="roxo_primario">#D189FF</color>
     <color name="roxo_escuro">#9D4EFD</color>
     <color name="black">#EEEEEE</color>
-    <color name="blacke">#000000</color>
+    <color name="blacke">#EEEEEE</color>
     <color name="branco">#FFFFFF</color>
+    <color name="cinza_texto">#FFFFFF</color>
     <color name="white">#000000</color>
     <color name="purple_200">#BB86FC</color>
     <color name="purple_500">#6200EE</color>
