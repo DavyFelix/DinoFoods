@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blacke"
+    android:background="@color/roxo_fundo"
     android:fillViewport="true">
 
     <LinearLayout
@@ -13,73 +13,95 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- TÍTULO -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Meu Endereço"
-            android:textColor="@color/white"
-            android:textSize="26sp"
+            android:textColor="@color/roxo_escuro"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Onde o seu Dino Snack deve ser entregue?"
-            android:textColor="@color/cinza_claro"
+            android:textColor="@color/cinza_texto"
             android:textSize="14sp"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="28dp"/>
 
+        <!-- BOTÃO LOCALIZAÇÃO -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGetLocation"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="56dp"
             android:text="Usar Localização Atual"
             android:textColor="@color/roxo_primario"
             app:strokeColor="@color/roxo_primario"
             app:strokeWidth="2dp"
-            app:cornerRadius="12dp"
+            app:cornerRadius="16dp"
             app:icon="@drawable/outline_add_location_24"
+            app:iconPadding="8dp"
             app:iconTint="@color/roxo_primario"
-            android:layout_marginBottom="24dp"/>
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="20dp"/>
 
+        <!-- INPUT EM CARD -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Endereço Completo"
             app:hintTextColor="@color/roxo_primario"
             app:boxStrokeColor="@color/roxo_primario"
-            android:textColorHint="@color/cinza_texto"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editEndereco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:textColorHint="@color/cinza_texto"
                 android:inputType="textPostalAddress"
                 android:lines="3"
+                android:padding="12dp"
                 android:gravity="top"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <org.osmdroid.views.MapView
-            android:id="@+id/mapView"
+        <!-- MAPA EM CARD -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="8dp"
+            >
 
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+        <!-- BOTÃO PRINCIPAL -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSalvarEndereco"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@color/roxo_primario"
             android:text="Confirmar Endereço"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            android:textSize="16sp"
+            android:backgroundTint="@color/roxo_primario"
+            app:cornerRadius="16dp"
+            app:elevation="4dp"/>
 
     </LinearLayout>
 </ScrollView>

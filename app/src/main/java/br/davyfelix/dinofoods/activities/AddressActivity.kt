@@ -38,7 +38,7 @@ class AddressActivity : AppCompatActivity() {
         Configuration.getInstance().load(this, getSharedPreferences("osmdroid", MODE_PRIVATE))
         Configuration.getInstance().userAgentValue = packageName
 
-        setContentView(R.layout.activity_addresses)
+        setContentView(R.layout.activity_address)
 
         // 2. INICIALIZAÇÃO DAS VIEWS
         editEndereco = findViewById(R.id.editEndereco)
@@ -116,6 +116,7 @@ class AddressActivity : AppCompatActivity() {
                     data = mapOf("endereco" to endereco)
                 )
                 Toast.makeText(this@AddressActivity, "Endereço atualizado!", Toast.LENGTH_SHORT).show()
+                finish()
             } catch (e: Exception) {
                 Log.e("Appwrite", "Erro: ${e.message}")
             }
