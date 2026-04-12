@@ -115,6 +115,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnEditProfile">
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -122,9 +123,9 @@
 
                 <LinearLayout
                     android:id="@+id/containerPedidos"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
@@ -134,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/meus_pedidos"
-                        android:textColor="@color/blacke"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                     <ImageView
                         android:layout_width="20dp"
@@ -144,13 +145,13 @@
                         app:tint="@color/cinza_texto" />
                 </LinearLayout>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/roxo_fundo" android:layout_marginHorizontal="16dp"/>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white" android:layout_marginHorizontal="16dp"/>
 
                 <LinearLayout
                     android:id="@+id/containerEnderecos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
@@ -160,14 +161,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/meus_endere_os"
-                        android:textColor="@color/blacke"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@android:drawable/arrow_down_float"
                         android:rotation="-90"
-                        app:tint="@color/cinza_texto" />
+                        app:tint="@color/black" />
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/roxo_fundo" android:layout_marginHorizontal="16dp"/>

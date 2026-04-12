@@ -71,6 +71,9 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<View>(R.id.containerPedidos).setOnClickListener {
             startActivity(Intent(this, OrdersActivity::class.java))
         }
+        findViewById<View>(R.id.containerEnderecos).setOnClickListener{
+            startActivity(Intent(this, AddressActivity::class.java))
+        }
 
         // Sair da Conta
         findViewById<View>(R.id.txtLogoutContainer).setOnClickListener {
