@@ -29,9 +29,11 @@ O **DinoFoods** simula um aplicativo moderno de delivery, permitindo que usuári
 - Gerenciem pedidos antes do checkout
 - Realizem autenticação de usuário
 
-A aplicação utiliza **Appwrite como backend principal** para autenticação e banco de dados, com **Firebase configurado como suporte adicional**.
+A aplicação utiliza o Appwrite como backend principal, sendo responsável pela persistência de dados por meio de Collections (Database) e pelo armazenamento de arquivos e imagens via Storage.
 
----
+O Firebase Authentication é utilizado para gerenciar todo o fluxo de autenticação, incluindo cadastro, login e controle de sessão dos usuários.
+
+Essa arquitetura híbrida permite uma separação clara de responsabilidades, utilizando o Firebase para autenticação segura e o Appwrite para gerenciamento estruturado dos dados, garantindo escalabilidade, organização e maior controle sobre os recursos da aplicação.
 
 # 🚀 Tecnologias Utilizadas
 
@@ -66,21 +68,28 @@ com.dinofoods
 │ ├── LoginActivity
 │ ├── RegisterActivity
 │ ├── MainActivity
-│ └── ProfileActivity
+│ ├── ProfileActivity
+│ ├── AdressActivy
+│ ├── ForgotPasswordActivity
+│ ├── EditProfileActivity
+│ ├── OrdersActivity
+│ └── AdminActivity
+│
 │
 ├── fragments
 │ ├── FoodsFragments
-│ ├── DrinksFragments
-│ └── CartFragments
+│ ├── CartFragments
+│ ├── DetailsFoodsFragments
+│ └── DetailsOrdersFragments
 │
 ├── adapter
 │ ├── ProdutoAdapter
+│ ├── OrdersAdapter
 │ └── CarrinhoAdapter
 │
 ├── data
 │ └── Cart.kt
-│
-├── model
+│ └── Orders.kt
 │ └── Produto.kt
 │
 └── services
@@ -176,7 +185,6 @@ Sincronize o Gradle e execute em um emulador ou dispositivo físico (Min SDK 24)
 Próximos Passos
 [ ] Implementar persistência local (Room ou SharedPreferences) para o carrinho.
 
-[ ] Adicionar animações de transição entre categorias.
 
 [ ] Finalização de checkout com integração de pagamento simulado.
 
