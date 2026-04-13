@@ -11,7 +11,10 @@ import com.google.firebase.FirebaseApp
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
+        AppwriteService.init(applicationContext)
 
         // 1. Inicializa serviços
         FirebaseApp.initializeApp(this)
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
+
     }
+
 
 }

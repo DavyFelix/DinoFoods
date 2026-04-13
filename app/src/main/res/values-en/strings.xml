@@ -31,7 +31,7 @@
     <string name="user">User</string>
     <string name="teste_gmail_com">teste@gmail.com</string>
     <string name="editar_perfil">Edit Profile</string>
-    <string name="meus_endere_os">My Addresses</string>
+    <string name="meus_endere_os">My Address</string>
     <string name="sair_da_conta">Exit Account</string>
     <string name="adicione_itens_primeiro">Add items first!</string>
     <string name="total_r_2f">Total: USD %.2f</string>
@@ -55,4 +55,17 @@
     <string name="adicionado">%1$s added!</string>
     <string name="adicionadoItem">%1$s added!</string>
     <string name="esqueci_senha">Forget you password ?</string>
+    <string name="confirmar_endereco">Confirm Address</string>
+    <string name="endereco_salvo">Address saved successfully!</string>
+    <string name="erro_endereco">Error saving address.</string>
+    <string name="dino_entrega">Dino Delivery here</string>
+    <string name="ligar_gps">Turn on the GPS to get the location.</string>
+    <string name="erro_busca">Error in search: %1$s</string>
+    <string name="digite_endereco">Type an address to search</string>
+    <string name="selecione_endereco">Please select an address.</string>
+    <string name="oentrar">Where the Dino Snack should be delivered?</string>
+    <string name="usar_localiza_o_atual">Use Current Location</string>
+    <string name="endere_o_completo">Complete Address</string>
+    <string name="buscar_endereco">Search Address</string>
+    <string name="administra_o">Administration</string>
 </resources>

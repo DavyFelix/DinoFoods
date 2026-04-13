@@ -19,21 +19,31 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 
 class HomeActivity : AppCompatActivity() {
 
+
+    private lateinit var adView: AdView
     lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        MobileAds.initialize(this) {}
         // 1. Configurações de UI e Edge-to-Edge
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
+        adView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+
         // 2. Inicialização de componentes
         drawerLayout = findViewById(R.id.drawerLayout)
         val navView = findViewById<NavigationView>(R.id.navView)
+        navView.menu.findItem(R.id.nav_adm)?.isVisible = false
 
         // 3. Carregar dados do usuário no Header do Menu
         configurarHeader(navView)
@@ -66,10 +76,14 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
+                R.id.nav_adm ->{
+                    startActivity(Intent(this, AdminActivity::class.java))
+                }
             }
             drawerLayout.closeDrawers()
             true
         }
+
     }
 
     private fun configurarHeader(navView: NavigationView) {
@@ -88,6 +102,10 @@ class HomeActivity : AppCompatActivity() {
                         collectionId = AppwriteService.COLLECTION_USUARIOS,
                         documentId = currentUser.uid
                     )
+                    // Verificação de Admin
+                    val isAdmin = documento.data["isAdmin"] as? Boolean ?: false
+                    // Mostra o botão no menu apenas se for admin
+                    navView.menu.findItem(R.id.nav_adm)?.isVisible = isAdmin
 
                     val nome = documento.data["nome"]?.toString() ?: "Explorador"
                     val email = documento.data["email"]?.toString() ?: currentUser.email

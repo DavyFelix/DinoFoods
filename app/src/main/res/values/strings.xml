@@ -56,4 +56,17 @@
     <string name="adicionado">%1$s !</string>
     <string name="adicionadoItem">%1$s adicionado!</string>
     <string name="esqueci_senha">Esqueceu sua senha ?</string>
+    <string name="endereco_salvo">Endereço salvo com sucesso!</string>
+    <string name="erro_endereco">Erro ao salvar endereço.</string>
+    <string name="dino_entrega">Dino Entrega Aqui!</string>
+    <string name="ligar_gps">Ligue o GPS para obter a localização.</string>
+    <string name="erro_busca">Erro na busca: %1$s</string>
+    <string name="digite_endereco">Digite um endereço para buscar</string>
+    <string name="selecione_endereco">Por favor, selecione um endereço.</string>
+    <string name="oentrar">Onde o seu Dino Snack deve ser entregue?</string>
+    <string name="usar_localiza_o_atual">Usar Localização Atual</string>
+    <string name="endere_o_completo">Endereço Completo</string>
+    <string name="buscar_endereco">Buscar endereço</string>
+    <string name="confirmar_endereco">Confirmar Endereço</string>
+    <string name="administra_o">Administração</string>
 </resources>

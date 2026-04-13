@@ -13,31 +13,52 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- TÍTULO -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Meu Endereço"
-            android:textColor="@color/roxo_escuro"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVoltar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                app:icon="@android:drawable/ic_menu_revert"
+                app:iconGravity="textStart"
+                app:iconSize="28dp"
+                app:iconTint="@color/roxo_escuro" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/meus_endere_os"
+                android:textColor="@color/roxo_escuro"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Onde o seu Dino Snack deve ser entregue?"
+            android:layout_marginBottom="28dp"
+            android:text="@string/oentrar"
             android:textColor="@color/cinza_texto"
-            android:textSize="14sp"
-            android:layout_marginBottom="28dp"/>
+            android:textSize="14sp" />
 
-        <!-- BOTÃO LOCALIZAÇÃO -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGetLocation"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Usar Localização Atual"
+            android:text="@string/usar_localiza_o_atual"
             android:textColor="@color/roxo_primario"
             app:strokeColor="@color/roxo_primario"
             app:strokeWidth="2dp"
@@ -48,11 +69,11 @@
             android:backgroundTint="@color/white"
             android:layout_marginBottom="20dp"/>
 
-        <!-- INPUT EM CARD -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutEndereco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço Completo"
+            android:hint="@string/endere_o_completo"
             app:hintTextColor="@color/roxo_primario"
             app:boxStrokeColor="@color/roxo_primario"
             app:boxBackgroundColor="@color/white"
@@ -60,8 +81,12 @@
             app:boxCornerRadiusTopEnd="16dp"
             app:boxCornerRadiusBottomStart="16dp"
             app:boxCornerRadiusBottomEnd="16dp"
+            app:endIconDrawable="@drawable/location"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:endIconMode="custom"
+            app:endIconTint="@color/roxo_primario"
+            app:endIconContentDescription="@string/buscar_endereco">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editEndereco"
@@ -70,32 +95,29 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/cinza_texto"
                 android:inputType="textPostalAddress"
-                android:lines="3"
-                android:padding="12dp"
-                android:gravity="top"/>
+                android:padding="12dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- MAPA EM CARD -->
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="8dp"
-            >
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="8dp">
 
             <org.osmdroid.views.MapView
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <!-- BOTÃO PRINCIPAL -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSalvarEndereco"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="32dp"
-            android:text="Confirmar Endereço"
+            android:text="@string/confirmar_endereco"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
