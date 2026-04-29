@@ -25,6 +25,7 @@ class AdminActivity : AppCompatActivity() {
         val cardAdd = findViewById<CardView>(R.id.cardAddProduct)
         val cardOrders = findViewById<CardView>(R.id.cardViewOrders)
         val cardCrash = findViewById<CardView>(R.id.cardCrash)
+        val cardDel = findViewById<CardView>(R.id.cardDel)
         val btnBackCart = findViewById<ImageButton>(R.id.btnBackCart)
         btnBackCart.setOnClickListener {
             finish()
@@ -43,6 +44,10 @@ class AdminActivity : AppCompatActivity() {
 
         cardCrash.setOnClickListener {
             throw RuntimeException("Crash de teste 🚨")
+        }
+        cardDel.setOnClickListener {
+            val intent = Intent(this, DeleteProductsActivity::class.java)
+            startActivity(intent)
         }
     }
 }

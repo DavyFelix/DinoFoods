@@ -26,6 +26,9 @@
         android:theme="@style/Theme.DinoFoods"
         tools:targetApi="31">
         <activity
+            android:name=".activities.DeleteProductsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddProductsActivity"
             android:exported="false" />
 
