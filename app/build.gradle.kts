@@ -64,6 +64,7 @@ dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("io.coil-kt:coil:2.6.0")
     implementation("com.google.android.gms:play-services-ads:23.0.0")
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
 
     // Cloud Messaging e Analytics
     implementation("com.google.firebase:firebase-messaging")

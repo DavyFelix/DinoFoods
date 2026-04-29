@@ -68,4 +68,6 @@
     <string name="endere_o_completo">Complete Address</string>
     <string name="buscar_endereco">Search Address</string>
     <string name="administra_o">Administration</string>
+    <string name="texto_padrao">Hambúrguer Especial</string>
+    <string name="preco_padrao">R$ 29,90</string>
 </resources>

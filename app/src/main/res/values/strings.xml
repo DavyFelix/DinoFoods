@@ -69,4 +69,6 @@
     <string name="buscar_endereco">Buscar endereço</string>
     <string name="confirmar_endereco">Confirmar Endereço</string>
     <string name="administra_o">Administração</string>
+    <string name="texto_padrao">Hambúrguer Especial</string>
+    <string name="preco_padrao">R$ 29,90</string>
 </resources>

@@ -50,6 +50,14 @@ object AppwriteService {
         databaseId = DATABASE_ID,
         collectionId = COLLECTION_PEDIDOS
     )
+
+    suspend fun deletarProduto(documentId: String) {
+        getDatabase().deleteDocument(
+            databaseId = DATABASE_ID,
+            collectionId = COLLECTION_PRODUTOS, // Certifique-se que este ID aponta para os produtos
+            documentId = documentId
+        )
+    }
     suspend fun salvarPerfilUsuario(uid: String, nome: String, email: String) {
         databases.createDocument(
             databaseId = DATABASE_ID,
